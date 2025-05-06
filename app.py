@@ -4,12 +4,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-# 🗝️ Въведи своя API ключ тук
-API_KEY = "ТУК_ВЪВЕДИ_СВОЯ_API_KEY"
+# API
+API_KEY = "4ac274aa678b073aa1511d3de8f777cc"
 CITY = "Plovdiv"
-URL = f"https://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
+URL = f"http://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
 
-# 🧠 Изтегляне на данните от API
+# Изтегляне на данните от API
 def get_weather_data():
     response = requests.get(URL)
     data = response.json()
