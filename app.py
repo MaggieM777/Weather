@@ -77,7 +77,7 @@ st.line_chart(df["temp"])
 st.subheader("🌧️ Валежи по дни (в мм)")
 st.bar_chart(df["rain"])
 
-# 📊 Анализ
+# 📊 Анализ на времето за месеца
 st.subheader("📊 Анализ на времето за месеца")
 month = "May"  # фиксирано, може да се направи динамично
 avg_temp = df["temp"].mean()
@@ -98,8 +98,9 @@ if rain_days > NORMALS[month]["rain_days"]:
 else:
     st.success("✅ Валежите са в нормата.")
 
-# 🧪 Качество на въздуха
+# 🧪 Качество на въздуха – анализ на замърсителите
 st.subheader("🧪 Качество на въздуха")
+
 aqi, components = get_air_quality_data()
 
 if aqi:
@@ -115,11 +116,44 @@ if aqi:
     st.markdown("**Компоненти (μg/m³):**")
     st.json(components)
 
-    # Визуализация
+    # Анализ на основните замърсители според СЗО
+    # PM2.5: 15 μg/m³ (дневна)
+    if components["pm2_5"] > 15:
+        st.warning(f"⚠️ PM2.5 ({components['pm2_5']} μg/m³) е над препоръчителната граница от 15 μg/m³!")
+    else:
+        st.success(f"✅ PM2.5 ({components['pm2_5']} μg/m³) е в безопасни граници.")
+    
+    # NO2: 40 μg/m³ (дневна)
+    if components["no2"] > 40:
+        st.warning(f"⚠️ NO2 ({components['no2']} μg/m³) е над препоръчителната граница от 40 μg/m³!")
+    else:
+        st.success(f"✅ NO2 ({components['no2']} μg/m³) е в безопасни граници.")
+
+    # O3: 160 μg/m³ (дневна)
+    if components["o3"] > 160:
+        st.warning(f"⚠️ O3 ({components['o3']} μg/m³) е над препоръчителната граница от 160 μg/m³!")
+    else:
+        st.success(f"✅ O3 ({components['o3']} μg/m³) е в безопасни граници.")
+    
+    # CO: 4.4 μg/m³ (часова)
+    if components["co"] > 4.4:
+        st.warning(f"⚠️ CO ({components['co']} μg/m³) е над препоръчителната граница от 4.4 μg/m³!")
+    else:
+        st.success(f"✅ CO ({components['co']} μg/m³) е в безопасни граници.")
+    
+    # PM10: 50 μg/m³ (дневна)
+    if components["pm10"] > 50:
+        st.warning(f"⚠️ PM10 ({components['pm10']} μg/m³) е над препоръчителната граница от 50 μg/m³!")
+    else:
+        st.success(f"✅ PM10 ({components['pm10']} μg/m³) е в безопасни граници.")
+
+    # Визуализация на замърсителите
     fig, ax = plt.subplots()
     ax.bar(components.keys(), components.values(), color='teal')
     ax.set_ylabel("μg/m³")
     ax.set_title("Концентрации на замърсители")
     st.pyplot(fig)
+
 else:
     st.warning("⚠️ Няма налични данни за замърсеността на въздуха.")
+
