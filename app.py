@@ -14,7 +14,7 @@ LON = 24.7453   # дължина за Пловдив
 WEATHER_URL = f"http://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
 
 # 🌍 URL за замърсеност на въздуха
-AIR_URL = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API key}"
+AIR_URL = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API_KEY}"
 
 # 🧠 Изтегляне на данни за времето
 def get_weather_data():
